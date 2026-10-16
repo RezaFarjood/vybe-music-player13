@@ -1,0 +1,62 @@
+name: VYBE Android v0.5 Release Preview
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.47.7'
+          cache: false
+      - name: Show pinned build toolchain
+        run: |
+          flutter --version
+          java -version
+      - name: Generate Android platform files
+        run: flutter create --empty --project-name vybe --platforms=android .
+      - name: Configure branding and media permissions
+        run: python3 scripts/configure_android.py
+      - name: Resolve Flutter packages
+        run: flutter pub get
+      - name: Validate Android build configuration
+        run: python3 -m unittest discover -s scripts/tests -p 'test_*.py' -v
+      - name: Verify pinned google_fonts compatibility
+        run: python scripts/check_build_dependencies.py
+      - name: Flutter analyzer
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+      - name: Run unit tests
+        run: flutter test
+      # Release/AOT is needed for meaningful animation and scroll testing.
+      # The generated Flutter template uses a DEBUG test keystore for signing;
+      # this is NOT a public Play Store release.
+      - name: Build optimized Android release preview APK
+        run: flutter build apk --release
+      - name: Create APK SHA-256 fingerprint
+        run: sha256sum build/app/outputs/flutter-apk/app-release.apk > build/app/outputs/flutter-apk/SHA256SUMS.txt
+      - name: Upload APK and SHA-256
+        uses: actions/upload-artifact@v4
+        with:
+          name: VYBE-Android-v0.5.0-release-preview-APK
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/flutter-apk/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14
