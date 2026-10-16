@@ -1,0 +1,70 @@
+{
+  "app": "VYBE",
+  "version": "0.5.0+10",
+  "created_utc_date": "2026-10-16",
+  "platforms": [
+    "Windows",
+    "Android"
+  ],
+  "source_files_checked_dart": 13,
+  "dart_balanced_source_files": [
+    "lib/main.dart",
+    "lib/models/music_track.dart",
+    "lib/services/approved_music_sites.dart",
+    "lib/services/music_controller.dart",
+    "lib/services/music_search.dart",
+    "lib/services/track_artwork.dart",
+    "lib/services/vybe_audio_service.dart",
+    "lib/services/vybe_download_manager.dart",
+    "lib/ui/desktop_online.dart",
+    "lib/ui/music_typography.dart",
+    "lib/ui/vybe_app.dart",
+    "lib/ui/vybe_mobile_app.dart",
+    "lib/ui/vybe_themes.dart"
+  ],
+  "brand_assets_verified": 9,
+  "python_tests": 23,
+  "python_test_result": "23 tests passed (mocked Kotlin syntax compilation included); Flutter SDK unavailable",
+  "implementation": {
+    "android_rebuild_reduction": "position ValueNotifier; MaterialApp rebuild restricted to theme",
+    "library": "metadata isolate batches (24), limited artwork reads (2 concurrent)",
+    "mobile_ui": "safe area, navigator key, full Now Playing, 15 themes, quick splash, optimized search",
+    "audio_android": "internal unity volume, optional no-clipping ReplayGain, audio_session and audio_service media controls",
+    "windows": "only draggable scrollbar UI change; default volume preserved",
+    "android_ci": "release/AOT test APK with non-production signing"
+  },
+  "not_run": [
+    "flutter pub get",
+    "flutter analyze",
+    "flutter test",
+    "flutter build apk",
+    "flutter build windows",
+    "physical audio comparison",
+    "measured fps benchmark",
+    "release APK on device",
+    "GitHub Actions of analyzer hotfix"
+  ],
+  "caveats": [
+    "Flutter SDK and Android SDK not installed locally; Build success unverified",
+    "Android lockscreen visual arrangement controlled by OS",
+    "ReplayGain needs metadata tags",
+    "some external music sites may not supply direct downloadable URLs"
+  ],
+  "analyzer_hotfix": {
+    "ci_flags": "--no-fatal-infos --no-fatal-warnings; errors still fatal",
+    "fixed_dart_warnings": [
+      "unused _openWebsite removed in previous hotfix",
+      "removed invalid scrollCacheExtent: 450 (int where ScrollCacheExtent is required)"
+    ],
+    "dart_source_changes": "two nonfunctional formatting/const lint patches on Windows; no UI redesign",
+    "flutter_sdk_available": false,
+    "flutter_build_verified": false,
+    "flutter_analyze_verified": false
+  },
+  "latest_git_actions_diagnostic": {
+    "error": "argument_type_not_assignable: int cannot be assigned to ScrollCacheExtent? at lib/ui/vybe_mobile_app.dart:324:26",
+    "fix": "removed ListView.builder scrollCacheExtent argument; platform default remains",
+    "verified_through": "23 local Python regression checks; not real Flutter analyze or CI build",
+    "remaining_warnings": "warnings and infos may remain; CI nonfatal flags retain real Dart errors as fatal"
+  }
+}

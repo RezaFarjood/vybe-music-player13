@@ -1,0 +1,28 @@
+test_android_bridge_compiles_against_api_stubs (test_android_kotlin_syntax.KotlinSmoke.test_android_bridge_compiles_against_api_stubs) ... ok
+test_all_old_result_wrappers_removed (test_file_picker_migration.FilePickerMigrationTests.test_all_old_result_wrappers_removed) ... ok
+test_android_workflow_uses_native_media_store (test_file_picker_migration.FilePickerMigrationTests.test_android_workflow_uses_native_media_store) ... ok
+test_audio_and_cover_pickers_still_present (test_file_picker_migration.FilePickerMigrationTests.test_audio_and_cover_pickers_still_present) ... ok
+test_file_picker_pinned_to_12 (test_file_picker_migration.FilePickerMigrationTests.test_file_picker_pinned_to_12) ... ok
+test_fresh_android_generated_structure (test_generated_android_template.GeneratedAndroidTests.test_fresh_android_generated_structure) ... ok
+test_both_workflows_validate_dependency_resolution (test_google_fonts_build_fix.GoogleFontsBuildRegression.test_both_workflows_validate_dependency_resolution) ... ok
+test_package_version_is_fixed (test_google_fonts_build_fix.GoogleFontsBuildRegression.test_package_version_is_fixed) ... ok
+test_validator_rejects_bad_lockfile (test_google_fonts_build_fix.GoogleFontsBuildRegression.test_validator_rejects_bad_lockfile) ... ok
+test_both_ci_jobs_nonfatal_advisories_but_errors_still_fatal (test_vybe_050_analyzer_hotfix.AnalyzerHotfixRegression.test_both_ci_jobs_nonfatal_advisories_but_errors_still_fatal) ... ok
+test_deprecated_cache_extent_removed (test_vybe_050_analyzer_hotfix.AnalyzerHotfixRegression.test_deprecated_cache_extent_removed) ... ok
+test_unused_online_route_removed_but_browser_retained (test_vybe_050_analyzer_hotfix.AnalyzerHotfixRegression.test_unused_online_route_removed_but_browser_retained) ... ok
+test_windows_functionality_retained (test_vybe_050_analyzer_hotfix.AnalyzerHotfixRegression.test_windows_functionality_retained) ... ok
+test_android_uses_release_for_realistic_performance (test_vybe_050_performance_audio.Vybe050Contracts.test_android_uses_release_for_realistic_performance) ... ok
+test_audio_cover_batch_and_desktop_scrollbar (test_vybe_050_performance_audio.Vybe050Contracts.test_audio_cover_batch_and_desktop_scrollbar) ... ok
+test_audio_quality_and_media_session (test_vybe_050_performance_audio.Vybe050Contracts.test_audio_quality_and_media_session) ... ok
+test_position_only_updates_player_ui (test_vybe_050_performance_audio.Vybe050Contracts.test_position_only_updates_player_ui) ... ok
+test_render_and_navigation_fixes (test_vybe_050_performance_audio.Vybe050Contracts.test_render_and_navigation_fixes) ... ok
+test_both_platforms_include_online_download_ui (test_vybe_studio_contract.StudioContracts.test_both_platforms_include_online_download_ui) ... ok
+test_in_app_downloader_limits (test_vybe_studio_contract.StudioContracts.test_in_app_downloader_limits) ... ok
+test_media_store_bridge_replaces_legacy_android_plugin (test_vybe_studio_contract.StudioContracts.test_media_store_bridge_replaces_legacy_android_plugin) ... ok
+test_theme_presets_and_export (test_vybe_studio_contract.StudioContracts.test_theme_presets_and_export) ... ok
+test_toolchain_and_versions_are_pinned (test_vybe_studio_contract.StudioContracts.test_toolchain_and_versions_are_pinned) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 5.817s
+
+OK
