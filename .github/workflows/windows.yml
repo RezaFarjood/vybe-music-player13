@@ -1,0 +1,65 @@
+name: VYBE Windows v0.5 Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 50
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Install Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.47.7'
+          cache: false
+      - name: Generate Windows platform files
+        run: flutter create --empty --project-name vybe --platforms=windows .
+      - name: Apply VYBE icon
+        shell: pwsh
+        run: Copy-Item assets/brand/vybe.ico windows/runner/resources/app_icon.ico -Force
+      - name: Resolve Flutter packages
+        run: flutter pub get
+      - name: Verify pinned google_fonts compatibility
+        run: python scripts/check_build_dependencies.py
+      - name: Flutter analyzer
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+      - name: Run unit tests
+        run: flutter test
+      - name: Compile Windows x64
+        run: flutter build windows --release
+      - name: Create integrity and Windows signing report
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $release = 'build/windows/x64/runner/Release'
+          $exe = Join-Path $release 'vybe.exe'
+          if (-not (Test-Path $exe)) { throw 'Windows build output vybe.exe missing' }
+          $files = Get-ChildItem -Path $release -Recurse -File | Where-Object { $_.Extension -in '.exe', '.dll' }
+          $manifest = @('# SHA-256 checksums of VYBE executable and bundled DLLs')
+          $report = @('VYBE Windows integrity / signing report', 'Unsigned beta builds may be blocked by Chrome or SmartScreen.', 'A SHA-256 digest proves equality of bytes, NOT absence of malware.', '')
+          foreach ($f in $files) {
+            $hash = (Get-FileHash -Path $f.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+            $relative = $f.FullName.Substring((Resolve-Path $release).Path.Length + 1).Replace('\','/')
+            $manifest += "$hash  $relative"
+            $auth = Get-AuthenticodeSignature -FilePath $f.FullName
+            $report += "$relative | SHA256=$hash | SignatureStatus=$($auth.Status) | Signer=$($auth.SignerCertificate.Subject)"
+          }
+          $manifest | Set-Content -Encoding utf8 (Join-Path $release 'SHA256SUMS.txt')
+          $report | Set-Content -Encoding utf8 (Join-Path $release 'SECURITY_REPORT.txt')
+          Write-Host "Produced integrity report for $($files.Count) executables / DLLs."
+      - name: Upload complete executable folder
+        uses: actions/upload-artifact@v4
+        with:
+          name: VYBE-Windows-v0.5.0
+          path: build/windows/x64/runner/Release/
+          if-no-files-found: error
+          retention-days: 14
