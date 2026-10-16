@@ -42,7 +42,10 @@ Future<void> _initializeMobileAudio(MusicController music) async {
         config: const AudioServiceConfig(
           androidNotificationChannelId: 'app.vybe.music.playback',
           androidNotificationChannelName: 'VYBE Music Playback',
-          androidNotificationOngoing: true,
+          // Keep Android's foreground service active while paused.
+          // audio_service 0.18.19 asserts that notificationOngoing cannot
+          // be true when stopForegroundOnPause is false.
+          androidNotificationOngoing: false,
           androidStopForegroundOnPause: false,
         ),
       );
