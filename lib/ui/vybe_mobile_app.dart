@@ -988,10 +988,8 @@ class _ThemeSelector extends StatelessWidget {
 /// Both platforms use the same set of approved domains. The selected website
 /// owns its search interface; VYBE does not offer an arbitrary URL bar.
 class _ApprovedMusicBrowser extends StatefulWidget {
-  const _ApprovedMusicBrowser({super.key, required this.theme,
-    this.initialSite = primaryMusicSite});
+  const _ApprovedMusicBrowser({super.key, required this.theme});
   final VybeThemeSpec theme;
-  final ApprovedMusicSite initialSite;
   @override
   State<_ApprovedMusicBrowser> createState() => _ApprovedMusicBrowserState();
 }
@@ -1007,7 +1005,7 @@ class _ApprovedMusicBrowserState extends State<_ApprovedMusicBrowser> {
   @override
   void initState() {
     super.initState();
-    selectedSite = widget.initialSite;
+    selectedSite = primaryMusicSite;
     browser = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..addJavaScriptChannel('VybeDownload', onMessageReceived: (message) {
@@ -1042,7 +1040,7 @@ class _ApprovedMusicBrowserState extends State<_ApprovedMusicBrowser> {
           return NavigationDecision.prevent;
         },
       ))
-      ..loadRequest(widget.initialSite.uri);
+      ..loadRequest(primaryMusicSite.uri);
   }
 
   Future<void> _installDirectDownloadIntercept() async {
